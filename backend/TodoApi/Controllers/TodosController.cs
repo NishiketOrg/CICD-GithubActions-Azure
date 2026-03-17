@@ -36,6 +36,7 @@ public class TodosController : ControllerBase
         item.Id = 0; // let EF assign the id
         _db.Todos.Add(item);
         await _db.SaveChangesAsync();
+        Console.WriteLine($"Created Todo with name: {item.Title}");
         return CreatedAtAction(nameof(GetById), new { id = item.Id }, item);
     }
 
