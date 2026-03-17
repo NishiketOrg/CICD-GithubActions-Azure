@@ -1,9 +1,17 @@
-targetScope = 'resourceGroup'
+targetScope = 'subscription'
 
 param appName string
-param location string = resourceGroup().location
+param location string = 'eastus'
+param resourceGroupName string = 'rg-cicd-demo'
+
+// Create the resource group as part of the Bicep deployment
+resource rg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
+  name: resourceGroupName
+  location: location
+}
 
 module plan 'modules/appserviceplan.bicep' = {
+  scope: rg
   params: {
     planName: '${appName}-plan'
     location: location
@@ -11,6 +19,7 @@ module plan 'modules/appserviceplan.bicep' = {
 }
 
 module swa 'modules/staticwebapp.bicep' = {
+  scope: rg
   params: {
     staticWebAppName: '${appName}-swa'
   }
@@ -18,6 +27,7 @@ module swa 'modules/staticwebapp.bicep' = {
 
 // Pass the SWA hostname as an allowed CORS origin for the backend
 module web 'modules/webapp.bicep' = {
+  scope: rg
   params: {
     webAppName: appName
     location: location
