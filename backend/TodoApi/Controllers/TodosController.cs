@@ -57,6 +57,7 @@ public class TodosController : ControllerBase
     {
         var existing = await _db.Todos.FindAsync(id);
         if (existing is null) return NotFound();
+        Console.WriteLine($"Deleting Todo with name: {existing.Title}");
 
         _db.Todos.Remove(existing);
         await _db.SaveChangesAsync();
