@@ -1,0 +1,30 @@
+<div class="container">
+  <h1>Todo List</h1>
+
+  <div class="add-todo">
+    <input
+      type="text"
+      placeholder="New todo..."
+      [(ngModel)]="newTitle"
+      (keyup.enter)="addTodo()"
+    />
+    <button (click)="addTodo()">Add</button>
+  </div>
+
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+  <p *ngIf="todos.length === 0 && !errorMessage" class="empty">No todos yet. Add one above!</p>
+
+  <ul>
+    <li *ngFor="let todo of todos" [class.completed]="todo.isCompleted">
+      <input
+        type="checkbox"
+        [checked]="todo.isCompleted"
+        (change)="toggleComplete(todo)"
+      />
+      <span>{{ todo.title }}</span>
+      <button class="delete-btn" (click)="deleteTodo(todo.id)">✕</button>
+    </li>
+  </ul>
+</div>
+
