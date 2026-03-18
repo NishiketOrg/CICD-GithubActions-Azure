@@ -17,3 +17,6 @@ Thumbs.db
 
 # docx
 *.docx
+
+# backend .vs folder
+backend/.vs/
